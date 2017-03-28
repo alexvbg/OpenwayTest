@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+    <xs:attribute name="OperationType">
+        <xs:simpleType>
+            <xs:restriction base="xs:string">
+                <xs:enumeration value="SUB"/>
+                <xs:enumeration value="SUM"/>
+                <xs:enumeration value="MUL"/>
+                <xs:enumeration value="DIV"/>
+            </xs:restriction>
+        </xs:simpleType>
+    </xs:attribute>
+    <xs:complexType name="term">
+        <xs:choice>
+            <xs:sequence>
+                <xs:element name="arg" type="xs:nonNegativeInteger" minOccurs="2" maxOccurs="2"/>
+            </xs:sequence>
+            <xs:sequence>
+                <xs:element name="arg1" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="operation1" type="term" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:sequence>
+                <xs:element name="operation2" type="term" minOccurs="1" maxOccurs="1"/>
+                <xs:element name="arg2" type="xs:nonNegativeInteger" minOccurs="1" maxOccurs="1"/>
+            </xs:sequence>
+            <xs:sequence>
+                <xs:element name="operation" type="term" minOccurs="2" maxOccurs="2"/>
+            </xs:sequence>
+        </xs:choice>
+        <xs:attribute ref="OperationType"/>
+    </xs:complexType>
+
+    <xs:element name="simpleCalculator">
+        <xs:complexType>
+            <xs:choice maxOccurs="1">
+                <xs:element name="expressions">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="expression" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="operation" type="term"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+                <xs:element name="expressionResults">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="expressionResult" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="result" type="xs:double" maxOccurs="1"/>
+                                    </xs:sequence>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:choice>
+        </xs:complexType>
+
+    </xs:element>
+
+
+</xs:schema>
